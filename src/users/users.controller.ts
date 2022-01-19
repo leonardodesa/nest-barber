@@ -11,17 +11,17 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { ReturnUserDto } from './dtos/return-user.dto';
+import { ReturnUserDto } from './dto/return-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../auth/role.decorator';
 import { UserRole } from './user-roles.enum';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { UpdateUserDto } from './dtos/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.entity';
-import { FindUsersQueryDto } from './dtos/find-users-query.dto';
+import { FindUsersQueryDto } from './dto/find-users-query.dto';
 
 @Controller('users')
 @UseGuards(AuthGuard(), RolesGuard)

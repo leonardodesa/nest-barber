@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UserRole } from './user-roles.enum';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
@@ -8,8 +8,8 @@ import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { CredentialsDto } from '../auth/dtos/credentials.dto';
-import { FindUsersQueryDto } from './dtos/find-users-query.dto';
+import { CredentialsDto } from '../auth/dto/credentials.dto';
+import { FindUsersQueryDto } from './dto/find-users-query.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -17,8 +17,9 @@ export class UserRepository extends Repository<User> {
     queryDto: FindUsersQueryDto,
   ): Promise<{ users: User[]; total: number }> {
     queryDto.status = queryDto.status === undefined ? true : queryDto.status;
-    queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
-    queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
+    queryDto.page = queryDto.page < 1 || !queryDto.page ? 1 : queryDto.page;
+    queryDto.limit =
+      queryDto.limit > 100 || !queryDto.limit ? 100 : queryDto.limit;
 
     const { email, name, status, role } = queryDto;
     const query = this.createQueryBuilder('user');
