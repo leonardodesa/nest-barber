@@ -7,13 +7,19 @@ import { LoggerInterceptor } from './interceptors/logger.interceptor';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { WinstonModule } from 'nest-winston';
 import { winstonConfig } from './configs/winston.config';
+import { ConfigModule } from '@nestjs/config';
+import env from './configs/env';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     WinstonModule.forRoot(winstonConfig),
+    ConfigModule.forRoot(),
     UsersModule,
     AuthModule,
+    ConfigModule.forRoot({
+      load: [env],
+    }),
   ],
   controllers: [],
   providers: [
